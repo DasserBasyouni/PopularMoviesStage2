@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailsActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:lines="1"
+            android:padding="@dimen/dp36"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp48"
+            tools:text="Chappie" />
+
+        <ImageView
+            android:id="@+id/thumbnail_iv"
+            android:layout_width="@dimen/dp150"
+            android:layout_height="@dimen/dp200"
+            android:layout_marginLeft="@dimen/dp17"
+            android:layout_marginStart="@dimen/dp17"
+            android:layout_marginTop="@dimen/dp17"
+            android:contentDescription="@string/movie_poster"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_tv" />
+
+        <TextView
+            android:id="@+id/releaseDate_tv"
+            android:layout_width="@dimen/dp55"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp32"
+            android:layout_marginLeft="@dimen/dp32"
+            android:layout_marginTop="@dimen/dp32"
+            android:textSize="@dimen/sp24"
+            app:layout_constraintStart_toEndOf="@+id/thumbnail_iv"
+            app:layout_constraintTop_toBottomOf="@+id/title_tv"
+            tools:text="2015"/>
+
+        <TextView
+            android:id="@+id/userRate_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp32"
+            android:layout_marginStart="@dimen/dp32"
+            android:layout_marginTop="@dimen/dp17"
+            app:layout_constraintStart_toEndOf="@+id/thumbnail_iv"
+            app:layout_constraintTop_toBottomOf="@+id/releaseDate_tv"
+            tools:text="8.1/10" />
+
+        <TextView
+            android:id="@+id/plotSynopsis_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp18"
+            android:padding="@dimen/dp17"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/thumbnail_iv"
+            tools:text="overview" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.NestedScrollView>
