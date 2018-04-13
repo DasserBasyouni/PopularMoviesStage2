@@ -10,12 +10,12 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_play_arrow_black_48dp"
+        app:srcCompat="@drawable/ic_play_arrow_black_24dp"
         />
 
     <TextView
         android:id="@+id/pm2_trailer_tv"
-        android:text="@string/trailer_space"
+        android:text="@string/trailer_with_space"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"

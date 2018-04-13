@@ -6,8 +6,8 @@
 
     <TextView
         android:id="@+id/pm2_author_tv"
-        android:textColor="@color/cardview_dark_background"
-        android:text="@string/trailer_space"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="@string/trailer_with_space"
         android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,8 +21,8 @@
 
     <TextView
         android:id="@+id/pm2_content_tv"
-        android:text="@string/trailer_space"
-        android:textColor="@color/cardview_dark_background"
+        android:text="@string/trailer_with_space"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"

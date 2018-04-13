@@ -22,17 +22,13 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-
-import com.example.dasser.popular.movies.stage2.model.Contract;
+import android.util.Log;
 
 
 public class Provider extends ContentProvider {
-    // The URI Matcher used by this content provider.
-    private static final UriMatcher pm2_sUriMatcher = pm2_buildUriMatcher();
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
     private DbHelper mOpenHelper;
-
-    public static final int pm2_MOVIES = 100;
-    public static final int pm2_FAV = 101;
+    public static final int MOVIES = 100;
 
     private Cursor get(String tableName, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         return mOpenHelper.getReadableDatabase().query(tableName,
@@ -45,19 +41,10 @@ public class Provider extends ContentProvider {
         );
     }
 
-    public static UriMatcher pm2_buildUriMatcher() {
-        // 1) The code passed into the constructor represents the code to return for the root
-        // URI.  It's common to use NO_MATCH as the code for this case. Add the constructor below.
+    public static UriMatcher buildUriMatcher() {
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-
-        // 2) Use the addURI function to match each of the types.  Use the constants from
-        // Contract to help define the types to the UriMatcher.
-        matcher.addURI(Contract.pm2_CONTENT_AUTHORITY, Contract.pm2_PATH_MOVIES + "/*", pm2_MOVIES);
-        matcher.addURI(Contract.pm2_CONTENT_AUTHORITY, Contract.pm2_PATH_FAV + "/*", pm2_FAV);
-
-        // 3) Return the new matcher!
+        matcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_MOVIES, MOVIES);
         return matcher;
-
     }
 
     @Override
@@ -73,11 +60,11 @@ public class Provider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         // Use the Uri Matcher to determine what kind of URI this is.
-        final int match = pm2_sUriMatcher.match(uri);
+        final int match = sUriMatcher.match(uri);
 
         switch (match) {
-            case pm2_MOVIES:
-                return Contract.pm2_MoviesEntry.pm2_CONTENT_TYPE;
+            case MOVIES:
+                return Contract.MoviesEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -88,13 +75,12 @@ public class Provider extends ContentProvider {
         // Here's the switch statement that, given a URI, will determine what kind of request it is,
         // and query the database accordingly.
         Cursor retCursor;
-        switch (pm2_sUriMatcher.match(uri)) {
-            case pm2_MOVIES: {
-                retCursor = get(Contract.pm2_MoviesEntry.pm2_TABLE_NAME, projection
+        switch (sUriMatcher.match(uri)) {
+            case MOVIES: {
+                retCursor = get(Contract.MoviesEntry.TABLE_NAME, projection
                         , selection, selectionArgs, sortOrder);
                 break;
             }
-
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -105,14 +91,17 @@ public class Provider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-        final int match = pm2_sUriMatcher.match(uri);
+        final int match = sUriMatcher.match(uri);
         Uri returnUri;
-
+        Log.e("Z_", uri.toString());
+        long mlong= 22;
+        Log.e("Z_2", String.valueOf(Contract.MoviesEntry.buildMoviesUri(mlong)));
+        Log.e("Z_3", String.valueOf(match));
         switch (match) {
-            case pm2_MOVIES:
-                long _id = db.insert(Contract.pm2_MoviesEntry.pm2_TABLE_NAME, null, values);
+            case MOVIES:
+                long _id = db.insert(Contract.MoviesEntry.TABLE_NAME, null, values);
                 if (_id > 0)
-                    returnUri = Contract.pm2_MoviesEntry.pm2_buildMoviesUri(_id);
+                    returnUri = Contract.MoviesEntry.buildMoviesUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
@@ -126,11 +115,11 @@ public class Provider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-        final int match = pm2_sUriMatcher.match(uri);
+        final int match = sUriMatcher.match(uri);
         int rowDeleted;
         switch (match) {
-            case pm2_MOVIES:
-                rowDeleted = db.delete(Contract.pm2_MoviesEntry.pm2_TABLE_NAME, selection, selectionArgs);
+            case MOVIES:
+                rowDeleted = db.delete(Contract.MoviesEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri need to be deleted: " + uri);
@@ -152,11 +141,11 @@ public class Provider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-        final int match = pm2_sUriMatcher.match(uri);
+        final int match = sUriMatcher.match(uri);
         int rowDeleted;
         switch (match) {
-            case pm2_MOVIES:
-                rowDeleted = db.update(Contract.pm2_MoviesEntry.pm2_TABLE_NAME, values, selection, selectionArgs);
+            case MOVIES:
+                rowDeleted = db.update(Contract.MoviesEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri need to be updated: " + uri);
@@ -168,14 +157,16 @@ public class Provider extends ContentProvider {
     @Override
     public int bulkInsert(Uri uri, ContentValues[] values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-        final int match = pm2_sUriMatcher.match(uri);
+
+        final int match = sUriMatcher.match(uri);
         switch (match) {
-            case pm2_MOVIES:
+            case MOVIES:
                 db.beginTransaction();
                 int returnCount = 0;
                 try {
                     for (ContentValues value : values) {
-                        long _id = db.insert(Contract.pm2_MoviesEntry.pm2_TABLE_NAME, null, value);
+                        long _id = db.insertWithOnConflict(Contract.MoviesEntry.TABLE_NAME
+                                , null, value,  SQLiteDatabase.CONFLICT_IGNORE);
                         if (_id != -1) {
                             returnCount++;
                         }
@@ -190,6 +181,8 @@ public class Provider extends ContentProvider {
                 return super.bulkInsert(uri, values);
         }
     }
+
+
 
     // You do not need to call this method. This is a method specifically to assist the testing
     // framework in running smoothly. You can read more at:

@@ -1,6 +1,6 @@
 package com.example.dasser.popular.movies.stage2.retrofit;
 
-import com.example.dasser.popularmoviesstage1.model.Movie;
+import com.example.dasser.popular.movies.stage2.model.Movie;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public interface MoviesAPI {
     Call<ResultModel> getAllMovies(@Path("ratedOrPopular") String ratedOrPopular);
 
     class ResultModel {
-        private final List<Movie> results = null;
+        private List<Movie> results;
 
         public List<Movie> getResults() {
             return results;

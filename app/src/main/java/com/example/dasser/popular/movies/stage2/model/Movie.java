@@ -1,4 +1,4 @@
-package com.example.dasser.popular.movies.stage2.database;
+package com.example.dasser.popular.movies.stage2.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,11 +9,16 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable {
 
+    private final int id;
     private final float vote_average;
     private final String original_title;
     private final String poster_path;
     private final String overview;
     private final String release_date;
+
+    public int getId() {
+        return id;
+    }
 
     public float getVoteAverage() {
         return vote_average;
@@ -36,6 +41,7 @@ public class Movie implements Parcelable {
     }
 
     private Movie(Parcel in) {
+        id = in.readInt();
         vote_average = in.readFloat();
         original_title = in.readString();
         poster_path = in.readString();
@@ -50,6 +56,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeFloat(id);
         dest.writeFloat(vote_average);
         dest.writeString(original_title);
         dest.writeString(poster_path);

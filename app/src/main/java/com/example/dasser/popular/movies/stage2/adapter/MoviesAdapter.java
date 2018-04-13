@@ -2,18 +2,15 @@ package com.example.dasser.popular.movies.stage2.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.example.dasser.popularmoviesstage1.DetailsActivity;
-import com.example.dasser.popularmoviesstage1.model.Movie;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.example.dasser.popular.movies.stage2.DetailsActivity;
+import com.example.dasser.popular.movies.stage2.model.Constants;
+import com.example.dasser.popular.movies.stage2.model.PostersAndIDs;
 
 import java.util.List;
 
@@ -25,11 +22,11 @@ public class MoviesAdapter extends BaseAdapter {
 
     private final String TAG = MoviesAdapter.class.getSimpleName();
     private final Context mContext;
-    private final List<Movie> movies;
+    private final List<PostersAndIDs> postersAndIDs;
 
-    public MoviesAdapter(Context c, List<Movie> movies) {
+    public MoviesAdapter(Context c, List<PostersAndIDs> postersAndIDs) {
         mContext = c;
-        this.movies = movies;
+        this.postersAndIDs = postersAndIDs;
     }
 
     private class ViewHolder {
@@ -37,7 +34,7 @@ public class MoviesAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return movies.size();
+        return postersAndIDs.size();
     }
 
     public Object getItem(int position) {
@@ -67,26 +64,14 @@ public class MoviesAdapter extends BaseAdapter {
         posterImageView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT
                 , GridView.LayoutParams.MATCH_PARENT));
         posterImageView.setAdjustViewBounds(true);
+        posterImageView.setImageBitmap(postersAndIDs.get(position).getBitmap());
 
-        Picasso.get().load("https://image.tmdb.org/t/p/w185" + movies.get(position)
-                .getPosterPath()).into(posterImageView, new Callback() {
+        posterImageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess() {
-                posterImageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mContext, DetailsActivity.class);
-                        intent.putExtra("movie", movies.get(position));
-                        intent.putExtra("bitmap", ((BitmapDrawable)
-                                posterImageView.getDrawable()).getBitmap());
-                        mContext.startActivity(intent);
-                    }
-                });
-            }
-
-            @Override
-            public void onError(Exception e) {
-                Log.e(TAG, "error: " + e);
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, DetailsActivity.class);
+                intent.putExtra(Constants.EXTRA_MOVIE_ID, postersAndIDs.get(position).getID());
+                mContext.startActivity(intent);
             }
         });
     }

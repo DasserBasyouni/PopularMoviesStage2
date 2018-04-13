@@ -1,7 +1,13 @@
 package com.example.dasser.popular.movies.stage2;
 
-import android.graphics.Bitmap;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -9,26 +15,27 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.dasser.popularmoviesstage1.model.Movie;
+import com.example.dasser.popular.movies.stage2.database.Contract;
+import com.example.dasser.popular.movies.stage2.model.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.dasser.popular.movies.stage2.database.Contract.Main_Movies_COLUMNS;
+import static com.example.dasser.popular.movies.stage2.model.Constants.DETAILS_LOADER_ID;
 
-public class DetailsActivity extends AppCompatActivity {
+
+public class DetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private final String TAG = DetailsActivity.class.getSimpleName();
+    private LoaderManager.LoaderCallbacks loaderCallback;
 
-    @BindView(R.id.title_tv)
-    TextView title_tv;
-    @BindView(R.id.plotSynopsis_tv)
-    TextView plotSynopsis_tv;
-    @BindView(R.id.releaseDate_tv)
-    TextView releaseDate_tv;
-    @BindView(R.id.userRate_tv)
-    TextView userRate_tv;
-    @BindView(R.id.thumbnail_iv)
-    ImageView thumbnail_iv;
+    @BindView(R.id.title) TextView title;
+    @BindView(R.id.plotSynopsis) TextView plotSynopsis;
+    @BindView(R.id.release_date) TextView releaseDate;
+    @BindView(R.id.rating_average) TextView ratingAverage;
+    @BindView(R.id.poster) ImageView poster;
+    @BindView(R.id.favorite_fab) FloatingActionButton favoriteFab;
 
 
     @Override
@@ -37,30 +44,17 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.details_activity);
         ButterKnife.bind(this);
 
+        loaderCallback = this;
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null)
-            displayMovieDetails((Movie) bundle.getParcelable("movie"),
-                    (Bitmap) bundle.getParcelable("bitmap"));
+            getSupportLoaderManager().initLoader(DETAILS_LOADER_ID, bundle, this);
         else
             Log.e(TAG, "Error staring Activity");
     }
 
-    private void displayMovieDetails(Movie movie, Bitmap bitmap) {
-        title_tv.setText(movie.getOriginalTitle());
-        plotSynopsis_tv.setText(movie.getOverview());
-        releaseDate_tv.setText(Utils.getDateFormat(movie.getReleaseDate()));
-        userRate_tv.setText(String.valueOf(Utils.getRateFormat(movie.getVoteAverage())));
-        thumbnail_iv.setImageBitmap(bitmap);
-
-        displayViewsAndHideSpan();
-    }
-
-    private void displayViewsAndHideSpan() {
-        title_tv.setVisibility(View.VISIBLE);
-        plotSynopsis_tv.setVisibility(View.VISIBLE);
-        releaseDate_tv.setVisibility(View.VISIBLE);
-        userRate_tv.setVisibility(View.VISIBLE);
-        thumbnail_iv.setVisibility(View.VISIBLE);
+    public void restartLoader() {
+        getSupportLoaderManager().restartLoader(DETAILS_LOADER_ID, null, loaderCallback);
     }
 
     @Override
@@ -71,5 +65,49 @@ public class DetailsActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        assert args != null;
+        return new CursorLoader(
+                this,
+                Contract.MoviesEntry.CONTENT_URI,
+                Main_Movies_COLUMNS,
+                Contract.MoviesEntry.COLUMN_MOVIE_ID + "=?",
+                new String[]{String.valueOf(args.getInt(Constants.EXTRA_MOVIE_ID))},
+                null
+        );
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        data.moveToFirst();
+        title.setText(data.getString(Contract.COLUMN_MOVIE_NAME));
+        plotSynopsis.setText(data.getString(Contract.COLUMN_MOVIE_SYS));
+        releaseDate.setText(data.getString(Contract.COLUMN_MOVIE_YEAR));
+        ratingAverage.setText(Utils.getRateFormat(data.getFloat(Contract.COLUMN_MOVIE_RATE)));
+        poster.setImageBitmap(Utils.getBitmapFromByteArray(
+                data.getBlob(Contract.COLUMN_MOVIE_POSTER)));
+
+        if(data.getInt(Contract.COLUMN_MOVIE_FAV) == 1)
+            favoriteFab.setImageResource(R.drawable.ic_star_white_24dp);
+        displayFirstViewsAndHideSpan();
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        Log.v(TAG, "In onLoaderReset");
+    }
+
+    private void displayFirstViewsAndHideSpan() {
+        title.setVisibility(View.VISIBLE);
+        plotSynopsis.setVisibility(View.VISIBLE);
+        releaseDate.setVisibility(View.VISIBLE);
+        ratingAverage.setVisibility(View.VISIBLE);
+        poster.setVisibility(View.VISIBLE);
+        favoriteFab.setVisibility(View.VISIBLE);
     }
 }
