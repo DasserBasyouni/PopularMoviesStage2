@@ -35,26 +35,30 @@ public class Contract {
     public static final int COLUMN_MOVIE_ID = 1;
     public static final int COLUMN_MOVIE_YEAR = 2;
     public static final int COLUMN_MOVIE_RATE = 3;
-    public static final int COLUMN_MOVIE_LENGTH = 4;
+    public static final int COLUMN_MOVIE_RUNTIME = 4;
     public static final int COLUMN_MOVIE_SYS = 5;
     public static final int COLUMN_MOVIE_FAV = 6;
     public static final int COLUMN_MOVIE_NAME = 7;
     public static final int COLUMN_MOVIE_REVIEWS_A = 8;
     public static final int COLUMN_MOVIE_REVIEWS_C = 9;
-    public static final int COLUMN_MOVIE_TRAILERS = 10;
+    public static final int COLUMN_MOVIE_TRAILERS_KEYS = 10;
+    public static final int COLUMN_MOVIE_TRAILERS_NAMES = 11;
+    public static final int COLUMN_MOVIE_TRAILERS_SITES = 12;
 
     public static final String[] Main_Movies_COLUMNS = {
-            Contract.MoviesEntry.COLUMN_MOVIE_POSTER,
-            Contract.MoviesEntry.COLUMN_MOVIE_ID,
-            Contract.MoviesEntry.COLUMN_MOVIE_YEAR,
-            Contract.MoviesEntry.COLUMN_MOVIE_RATE,
-            Contract.MoviesEntry.COLUMN_MOVIE_LENGTH,
-            Contract.MoviesEntry.COLUMN_MOVIE_SYS,
-            Contract.MoviesEntry.COLUMN_MOVIE_FAV,
-            Contract.MoviesEntry.COLUMN_MOVIE_NAME,
-            Contract.MoviesEntry.COLUMN_MOVIE_REVIEWS_A,
-            Contract.MoviesEntry.COLUMN_MOVIE_REVIEWS_C,
-            Contract.MoviesEntry.COLUMN_MOVIE_TRAILERS
+            MoviesEntry.COLUMN_MOVIE_POSTER,
+            MoviesEntry.COLUMN_MOVIE_ID,
+            MoviesEntry.COLUMN_MOVIE_YEAR,
+            MoviesEntry.COLUMN_MOVIE_RATE,
+            MoviesEntry.COLUMN_MOVIE_RUNTIME,
+            MoviesEntry.COLUMN_MOVIE_SYS,
+            MoviesEntry.COLUMN_MOVIE_FAV,
+            MoviesEntry.COLUMN_MOVIE_NAME,
+            MoviesEntry.COLUMN_MOVIE_REVIEWS_A,
+            MoviesEntry.COLUMN_MOVIE_REVIEWS_C,
+            MoviesEntry.COLUMN_MOVIE_TRAILERS_KEYS,
+            MoviesEntry.COLUMN_MOVIE_TRAILERS_NAMES,
+            MoviesEntry.COLUMN_MOVIE_TRAILERS_SITES
     };
 
     public static final class MoviesEntry implements BaseColumns {
@@ -68,10 +72,12 @@ public class Contract {
 
         public static final String COLUMN_MOVIE_REVIEWS_A = "reviews_author";
         public static final String COLUMN_MOVIE_REVIEWS_C = "reviews_content";
-        public static final String COLUMN_MOVIE_TRAILERS = "trailers";
-        public static final String COLUMN_MOVIE_LENGTH = "length";
+        public static final String COLUMN_MOVIE_RUNTIME = "runtime";
         public static final String COLUMN_MOVIE_FAV = "fav";
         public static final String COLUMN_MOVIE_RATED = "rated";
+        public static final String COLUMN_MOVIE_TRAILERS_KEYS = "trailers_keys";
+        public static final String COLUMN_MOVIE_TRAILERS_NAMES = "trailers_names";
+        public static final String COLUMN_MOVIE_TRAILERS_SITES = "trailers_sites";
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIES).build();

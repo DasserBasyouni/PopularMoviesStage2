@@ -34,30 +34,7 @@
             android:name=".database.Provider"
             android:authorities="com.example.dasser.popular.movies.stage2"
             android:exported="false"
-            android:syncable="true"
-          />
-
-        <service android:name=".sync.AuthenticatorService"
-            tools:ignore="ExportedService">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-            </intent-filter>
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
-
-        <service
-            android:name=".sync.SyncService"
-            android:exported="true"
-            tools:ignore="ExportedService">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
-            </intent-filter>
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/sync_adapter" />
-        </service>
+            android:syncable="true" />
 
     </application>
 

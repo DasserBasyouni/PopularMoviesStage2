@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.dasser.popular.movies.stage2.R;
-import com.example.dasser.popular.movies.stage2.model.ReviewsDO;
 
 import java.util.List;
 
@@ -20,9 +19,9 @@ import java.util.List;
    Created by DB-Project on 8/23/2017.
 */
 
-class TrailersAndReviewsAdapter extends ArrayAdapter<String> {
+class TrailersAndReviewsAdapter /*extends ArrayAdapter<String>*/ {
 
-    private String[] Strings;
+    /*private String[] Strings;
     private boolean isTrailers;
     private List<ReviewsDO> reviewsDO;
 
@@ -91,5 +90,5 @@ class TrailersAndReviewsAdapter extends ArrayAdapter<String> {
             return super.getCount();
         else
             return reviewsDO.size();
-    }
+    }*/
 }

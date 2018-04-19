@@ -31,14 +31,15 @@
 
             <ImageView
                 android:id="@+id/poster"
-                android:layout_width="108dp"
-                android:layout_height="wrap_content"
+                android:layout_width="185dp"
+                android:layout_height="278dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:contentDescription="@string/poster_description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title"
+                android:scaleType="centerCrop"
                 tools:srcCompat="@drawable/ic_launcher_background" />
 
             <TextView
@@ -66,11 +67,26 @@
                 android:id="@+id/runtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/release_date"
                 app:layout_constraintTop_toBottomOf="@+id/release_date"
                 tools:text="120min" />
+
+            <com.github.ybq.android.spinkit.SpinKitView
+                android:id="@+id/spin_kit"
+                style="@style/SpinKitView.Large.Wave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                app:SpinKit_Color="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/poster"
+                app:layout_constraintTop_toBottomOf="@+id/rating_average" />
 
             <TextView
                 android:id="@+id/plotSynopsis"
@@ -98,10 +114,11 @@
                 android:background="@color/lineColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/plotSynopsis" />
+                app:layout_constraintTop_toBottomOf="@+id/plotSynopsis"
+                android:visibility="gone"/>
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/trailers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -109,7 +126,8 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/trailers"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/frameLayout1" />
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout1"
+                android:visibility="gone"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/trailer_rv"
@@ -119,7 +137,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/trailers"
+                android:visibility="gone"/>
 
             <FrameLayout
                 android:id="@+id/frameLayout2"
@@ -133,7 +152,8 @@
                 android:background="@color/lineColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/plotSynopsis" />
+                app:layout_constraintTop_toBottomOf="@+id/plotSynopsis"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/reviews"
@@ -144,7 +164,8 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/reviews"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout2"
+                android:visibility="gone"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/reviews_rv"
@@ -159,7 +180,45 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reviews" />
+                app:layout_constraintTop_toBottomOf="@+id/reviews"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/loading_more_data_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/loading_more_data"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/poster"
+                app:layout_constraintTop_toBottomOf="@+id/spin_kit" />
+
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fitsSystemWindows="true"
+                app:layout_constraintTop_toBottomOf="@+id/plotSynopsis"
+                tools:layout_editor_absoluteX="16dp">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="330dp"
+                    android:layout_gravity="bottom"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingBottom="30dp"
+                    android:paddingEnd="@dimen/card_padding"
+                    android:paddingLeft="@dimen/card_padding"
+                    android:paddingRight="@dimen/card_padding"
+                    android:paddingStart="@dimen/card_padding" />
+
+            </android.support.design.widget.CoordinatorLayout>
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
@@ -171,7 +230,7 @@
         android:layout_margin="14dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_star_white_24dp"
+        android:src="@drawable/ic_favorite_border_red_a700_24dp"
         android:visibility="gone"
         app:layout_anchor="@+id/nestedScrollView"
         app:layout_anchorGravity="right|bottom" />
