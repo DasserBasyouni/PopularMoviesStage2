@@ -46,31 +46,41 @@
                 android:id="@+id/release_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:textSize="24sp"
-                app:layout_constraintStart_toEndOf="@+id/poster"
-                app:layout_constraintTop_toBottomOf="@+id/title"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
                 tools:text="2015" />
 
             <TextView
                 android:id="@+id/rating_average"
                 android:layout_width="wrap_content"
                 android:layout_height="18dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="@+id/runtime"
-                app:layout_constraintTop_toBottomOf="@+id/runtime"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/textView3"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorAccent"
                 tools:text="8.1/10" />
 
             <TextView
                 android:id="@+id/runtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/release_date"
-                app:layout_constraintTop_toBottomOf="@+id/release_date"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView2"
                 tools:text="120min" />
 
             <com.github.ybq.android.spinkit.SpinKitView
@@ -82,7 +92,6 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
                 app:SpinKit_Color="@color/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/poster"
@@ -130,15 +139,19 @@
                 android:visibility="gone"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/trailer_rv"
-                android:layout_width="wrap_content"
-                android:layout_height="63dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
+                android:id="@+id/trailers_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/trailers"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                />
 
             <FrameLayout
                 android:id="@+id/frameLayout2"
@@ -148,11 +161,11 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="120dp"
+                android:layout_marginTop="16dp"
                 android:background="@color/lineColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/plotSynopsis"
+                app:layout_constraintTop_toBottomOf="@+id/trailers_rv"
                 android:visibility="gone"/>
 
             <TextView
@@ -161,7 +174,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/reviews"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frameLayout2"
@@ -169,19 +182,33 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/reviews_rv"
-                android:layout_width="0dp"
-                android:layout_height="63dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/reviews"
                 android:visibility="gone"/>
+
+            <TextView
+                android:text="@string/no_reviews_available"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:id="@+id/no_reviews_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/reviews" />
 
             <TextView
                 android:id="@+id/loading_more_data_tv"
@@ -191,34 +218,43 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/loading_more_data"
+                android:text="@string/loading_more_details"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/poster"
                 app:layout_constraintTop_toBottomOf="@+id/spin_kit" />
 
-            <android.support.design.widget.CoordinatorLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/released"
+                app:layout_constraintStart_toEndOf="@+id/poster"
+                app:layout_constraintTop_toBottomOf="@+id/title" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+                android:layout_marginTop="16dp"
+                android:text="@string/runtime"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/release_date" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:fitsSystemWindows="true"
-                app:layout_constraintTop_toBottomOf="@+id/plotSynopsis"
-                tools:layout_editor_absoluteX="16dp">
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/view_pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="330dp"
-                    android:layout_gravity="bottom"
-                    android:clipToPadding="false"
-                    android:overScrollMode="never"
-                    android:paddingBottom="30dp"
-                    android:paddingEnd="@dimen/card_padding"
-                    android:paddingLeft="@dimen/card_padding"
-                    android:paddingRight="@dimen/card_padding"
-                    android:paddingStart="@dimen/card_padding" />
-
-            </android.support.design.widget.CoordinatorLayout>
+                android:text="@string/average_rate"
+                style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/runtime" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>

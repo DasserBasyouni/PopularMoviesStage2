@@ -20,10 +20,15 @@
     <string name="trailers">Trailers:</string>
     <string name="reviews">Reviews:</string>
     <string name="poster_description">Movie Poster</string>
-    <string name="loading_more_data">Loading More Data</string>
+    <string name="loading_more_details">Loading More Details</string>
     <string name="video_thumbnail">Video Thumbnail</string>
 
-    <string name="runtime_format">%1$s! minutes</string>
-    <string name="youtube_thumbnail_format">https://img.youtube.com/vi/%1$s!/0.jpg</string>
-    <string name="youtube_video_url_format">https://www.youtube.com/watch?v=%1$s!</string>
+    <string name="runtime_format">%1$s minutes</string>
+    <string name="youtube_thumbnail_format">https://img.youtube.com/vi/%1$s/mqdefault.jpg</string>
+    <string name="youtube_video_url_format">https://www.youtube.com/watch?v=%1$s</string>
+    <string name="author_format">~%1s</string>
+    <string name="no_reviews_available">No Reviews For This Movie</string>
+    <string name="average_rate">Average Rate</string>
+    <string name="runtime">Runtime</string>
+    <string name="released">Released</string>
 </resources>

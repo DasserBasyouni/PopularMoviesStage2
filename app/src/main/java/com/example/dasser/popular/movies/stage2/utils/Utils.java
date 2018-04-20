@@ -1,22 +1,11 @@
 package com.example.dasser.popular.movies.stage2.utils;
 
-import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.annotation.IntDef;
-import android.support.annotation.StringDef;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.dasser.popular.movies.stage2.MainActivity;
 import com.example.dasser.popular.movies.stage2.R;
 import com.example.dasser.popular.movies.stage2.retrofit.MoviesAPI;
 import com.squareup.picasso.Callback;
@@ -26,15 +15,9 @@ import com.squareup.picasso.Picasso;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.dasser.popular.movies.stage2.utils.Utils.ArrayStringMovieDataType.author;
-import static com.example.dasser.popular.movies.stage2.utils.Utils.ArrayStringMovieDataType.content;
-import static com.example.dasser.popular.movies.stage2.utils.Utils.ArrayStringMovieDataType.key;
-import static com.example.dasser.popular.movies.stage2.utils.Utils.ArrayStringMovieDataType.name;
-import static com.example.dasser.popular.movies.stage2.utils.Utils.ArrayStringMovieDataType.site;
-import static com.example.dasser.popular.movies.stage2.utils.Utils.DataLoadedMode.sortedByFavorites;
-import static com.example.dasser.popular.movies.stage2.utils.Utils.DataLoadedMode.sortedByPopularity;
-import static com.example.dasser.popular.movies.stage2.utils.Utils.DataLoadedMode.sortedByRating;
-import static com.example.dasser.popular.movies.stage2.utils.Utils.VideosSiteType.youTube;
+import static com.example.dasser.popular.movies.stage2.Constants.DataLoadedMode.sortedByPopularity;
+import static com.example.dasser.popular.movies.stage2.Constants.DataLoadedMode.sortedByRating;
+import static com.example.dasser.popular.movies.stage2.Constants.VideosSiteType.youTube;
 
 /**
    Created by Dasser on 21-Mar-18.
@@ -42,37 +25,15 @@ import static com.example.dasser.popular.movies.stage2.utils.Utils.VideosSiteTyp
 
 public final class Utils {
 
-    private static final String CHANNEL_ID = "syncing_notification";
-    private static final int SYNCING_NOTIFICATION_ID = 0;
-
     private Utils() {}
 
     public static String convertSitesNamesToIntValue(String site) {
         return site.replace("Youtube", String.valueOf(youTube));
     }
 
-    @IntDef({sortedByPopularity, sortedByRating, sortedByFavorites})
-    public @interface DataLoadedMode {
-        int sortedByPopularity = 0;
-        int sortedByRating = 1;
-        int sortedByFavorites = 2;
+    public static String getAuthorFormat(Context context, String author) {
+        return context.getString(R.string.author_format, author);
     }
-
-
-    @IntDef({author, content, key, name, site})
-    public @interface ArrayStringMovieDataType {
-        int author = 0;
-        int content = 1;
-        int key = 2;
-        int name = 3;
-        int site = 4;
-    }
-
-    @StringDef({youTube})
-    public @interface VideosSiteType {
-        String youTube = "0";
-    }
-
 
     public static MoviesAPI setupRetrofitAndGetMoviesAPI() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -81,42 +42,6 @@ public final class Utils {
                 .build();
 
         return retrofit.create(MoviesAPI.class);
-    }
-
-    public static void showSyncingNotification(Context context) {
-        Log.e("Z_", "show notification");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = context.getString(R.string.channel_name);
-            String description = context.getString(R.string.channel_description);
-            int importance = NotificationManagerCompat.IMPORTANCE_DEFAULT;
-            @SuppressLint("WrongConstant") NotificationChannel channel
-                    = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-
-            NotificationManager notificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
-
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_sync_black_24dp)
-                .setContentTitle("My notification")
-                .setContentText("Much longer text that cannot fit one line...")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Much longer text that cannot fit one line..."))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);;
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(SYNCING_NOTIFICATION_ID, mBuilder.build());
     }
 
     public static void loadPosterImage(final String TAG, final String url, final ImageView imageView) {
@@ -150,13 +75,6 @@ public final class Utils {
         return Integer.parseInt(date.substring(0, 4));
     }
 
-    public static String[] getYoutubeTrailers(String[] youtubeTrailers) {
-        for(int i=0; i<youtubeTrailers.length ;i++){
-            youtubeTrailers[i] = "https://www.youtube.com/watch?v=" + youtubeTrailers[i];
-        }
-        return youtubeTrailers;
-    }
-
     public static String getRunTimeFormat(Context context, String time) {
         return context.getString(R.string.runtime_format, time);
     }
@@ -178,9 +96,13 @@ public final class Utils {
         if (sortingOption == sortedByPopularity)
             return getSharedPreferences(context).getBoolean(
                 context.getString(R.string.pref_popular_initialized), false);
-        else
+        else if (sortingOption == sortedByRating)
             return getSharedPreferences(context).getBoolean(
                 context.getString(R.string.pref_rated_initialized), false);
+        else
+            return getSharedPreferences(context).getBoolean(context.getString(R.string.pref_popular_initialized)
+                    , false) || getSharedPreferences(context)
+                    .getBoolean(context.getString(R.string.pref_rated_initialized), false);
     }
 
     public static void saveInitializationState(Context context, int sortingOption) {
@@ -194,23 +116,13 @@ public final class Utils {
         saveSharedPreferencesValue(context, stringResID, true);
     }
 
-    public static int getSortingPreference(Context context, boolean inverted) {
-        int sortingPref = getSharedPreferences(context).getInt(
+    public static int getSortingPreference(Context context) {
+        return getSharedPreferences(context).getInt(
                 context.getString(R.string.pref_sorting_option), sortedByPopularity);
-        if (inverted) {
-            if (sortingPref == sortedByPopularity)
-                sortingPref = sortedByRating;
-            else
-                sortingPref = sortedByPopularity;
-        }
-        return sortingPref;
     }
 
     private static SharedPreferences getSharedPreferences(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public static float dpToPixels(int dp, Context context) {
-        return dp * (context.getResources().getDisplayMetrics().density);
-    }
 }

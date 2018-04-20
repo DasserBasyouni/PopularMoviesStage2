@@ -1,5 +1,6 @@
 package com.example.dasser.popular.movies.stage2;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,8 +9,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,8 +20,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.dasser.popular.movies.stage2.adapter.CardPagerAdapter;
-import com.example.dasser.popular.movies.stage2.adapter.ShadowTransformer;
+import com.example.dasser.popular.movies.stage2.adapter.ReviewsAdapter;
+import com.example.dasser.popular.movies.stage2.adapter.TrailersAdapter;
 import com.example.dasser.popular.movies.stage2.database.Contract;
 import com.example.dasser.popular.movies.stage2.utils.AsyncTasks;
 import com.example.dasser.popular.movies.stage2.utils.Utils;
@@ -29,7 +31,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.example.dasser.popular.movies.stage2.Constants.DETAILS_MAIN_DATA_LOADER_ID;
+import static com.example.dasser.popular.movies.stage2.Constants.favoriteOrNot.favorite;
+import static com.example.dasser.popular.movies.stage2.Constants.favoriteOrNot.notFavorite;
 import static com.example.dasser.popular.movies.stage2.database.Contract.Main_Movies_COLUMNS;
+import static com.example.dasser.popular.movies.stage2.database.Contract.MoviesEntry.CONTENT_URI;
 import static com.example.dasser.popular.movies.stage2.utils.Utils.getRunTimeFormat;
 import static com.example.dasser.popular.movies.stage2.utils.Utils.loadPosterImage;
 
@@ -49,16 +54,15 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
     @BindView(R.id.loading_more_data_tv) TextView loadingMoreData_tv;
     @BindView(R.id.frameLayout1) FrameLayout firstFrameLayout;
     @BindView(R.id.trailers) TextView trailers;
-    @BindView(R.id.trailer_rv) RecyclerView trailer_rv;
+    @BindView(R.id.trailers_rv) RecyclerView trailersRV;
     @BindView(R.id.frameLayout2) FrameLayout secondFrameLayout;
     @BindView(R.id.reviews) TextView reviews;
-    @BindView(R.id.reviews_rv) RecyclerView reviews_rv;
+    @BindView(R.id.reviews_rv) RecyclerView reviewsRV;
     @BindView(R.id.spin_kit) SpinKitView spinKit;
-    @BindView(R.id.view_pager) ViewPager reviewsViewPager;
+    @BindView(R.id.no_reviews_tv) TextView noReviews_tv;
 
-    /*private CardPagerAdapter reviewsCardAdapter;
-    private ShadowTransformer reviewsCardShadowTransformer;*/
     private String movie_id;
+    private boolean favoriteMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,30 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             getSupportLoaderManager().initLoader(DETAILS_MAIN_DATA_LOADER_ID, bundle, this);
         else
             Log.e(TAG, "Error staring Activity");
+
+        setupFavoriteFab();
+    }
+
+    private void setupFavoriteFab() {
+        favoriteFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContentValues favoriteValue = new ContentValues();
+                if (favoriteMovie){
+                    favoriteFab.setImageResource(R.drawable.ic_favorite_border_red_a700_24dp);
+                    favoriteValue.put(Contract.MoviesEntry.COLUMN_MOVIE_FAV, notFavorite);
+                }else {
+                    favoriteFab.setImageResource(R.drawable.ic_favorite_red_a700_24dp);
+                    favoriteValue.put(Contract.MoviesEntry.COLUMN_MOVIE_FAV, favorite);
+                }
+                int update = getContentResolver()
+                        .update(CONTENT_URI, favoriteValue
+                                , Contract.MoviesEntry.COLUMN_MOVIE_ID + "=?"
+                                , new String[]{movie_id});
+                Log.d(TAG, "setupFavoriteFab.onClick - Task Complete " + update + "has been updated");
+
+            }
+        });
     }
 
     @Override
@@ -114,40 +142,52 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         ratingAverage.setText(Utils.getRateFormat(data.getFloat(Contract.COLUMN_MOVIE_RATE)));
         loadPosterImage(TAG, "https://image.tmdb.org/t/p/w185" + data.getString(Contract.COLUMN_MOVIE_POSTER), poster);
 
-        if(data.getInt(Contract.COLUMN_MOVIE_FAV) == 1)
+        if(data.getInt(Contract.COLUMN_MOVIE_FAV) == favorite){
             favoriteFab.setImageResource(R.drawable.ic_favorite_red_a700_24dp);
+            favoriteMovie = true;
+        }
 
         if(data.getString(Contract.COLUMN_MOVIE_RUNTIME) == null) {
             Log.d(TAG, "onLoadFinished - data is null");
             initializeDetailsDataLoader();
         }else{
             Log.d(TAG, "onLoadFinished - data is not null");
-            setMoreDetailedDataToViews(data);
-            displayDetailsViewsAndHideSpan();
+            displayDetailsViewsAndHideSpan(
+                    setMoreDetailedDataToViewsAndReturnReviewsAvailability(data));
         }
         displayMainViewsAndHideSpan();
     }
 
-    private void setMoreDetailedDataToViews(Cursor data) {
+    private boolean setMoreDetailedDataToViewsAndReturnReviewsAvailability(Cursor data) {
         runtime.setText(getRunTimeFormat(getBaseContext(), data.getString(Contract.COLUMN_MOVIE_RUNTIME)));
 
-        CardPagerAdapter reviewsCardAdapter = new CardPagerAdapter(this,
-                data.getString(Contract.COLUMN_MOVIE_REVIEWS_A)
-                , data.getString(Contract.COLUMN_MOVIE_REVIEWS_A));
-        setupCardPagerAdapter(reviewsCardAdapter);
+        String author = data.getString(Contract.COLUMN_MOVIE_REVIEWS_A).trim();
+        Log.e("Z_1", author);
+        boolean areReviewsAvailable = !author.isEmpty();
+        Log.e("Z_2", "" + areReviewsAvailable);
 
-        CardPagerAdapter trailerCardAdapter = new CardPagerAdapter(this,
+        if (areReviewsAvailable){
+            ReviewsAdapter reviewsCardAdapter = new ReviewsAdapter(this,
+                    data.getString(Contract.COLUMN_MOVIE_REVIEWS_A)
+                    , data.getString(Contract.COLUMN_MOVIE_REVIEWS_C));
+            setupRecyclerView(reviewsCardAdapter, reviewsRV);
+        } else
+            noReviews_tv.setVisibility(View.VISIBLE);
+
+
+        TrailersAdapter trailerCardAdapter = new TrailersAdapter(this,
                 data.getString(Contract.COLUMN_MOVIE_TRAILERS_KEYS)
                 , data.getString(Contract.COLUMN_MOVIE_TRAILERS_NAMES)
                 , data.getString(Contract.COLUMN_MOVIE_TRAILERS_SITES));
-        setupCardPagerAdapter(trailerCardAdapter);
+        setupRecyclerView(trailerCardAdapter, trailersRV);
+        return areReviewsAvailable;
     }
 
-    private void setupCardPagerAdapter(CardPagerAdapter cardPagerAdapter) {
-        ShadowTransformer cardShadowTransformer = new ShadowTransformer(reviewsViewPager, cardPagerAdapter);
-        reviewsViewPager.setAdapter(cardPagerAdapter);
-        reviewsViewPager.setPageTransformer(false, cardShadowTransformer);
-        reviewsViewPager.setOffscreenPageLimit(3);
+    private void setupRecyclerView(RecyclerView.Adapter adapter, RecyclerView recyclerView) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this
+                , LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
     }
 
     private void initializeDetailsDataLoader() {
@@ -188,15 +228,21 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         favoriteFab.setVisibility(View.VISIBLE);
     }
 
-    private void displayDetailsViewsAndHideSpan() {
+    private void displayDetailsViewsAndHideSpan(boolean reviewsAvailable) {
         loadingMoreData_tv.setVisibility(View.GONE);
         spinKit.setVisibility(View.GONE);
         firstFrameLayout.setVisibility(View.VISIBLE);
         secondFrameLayout.setVisibility(View.VISIBLE);
         trailers.setVisibility(View.VISIBLE);
-        trailer_rv.setVisibility(View.VISIBLE);
+        trailersRV.setVisibility(View.VISIBLE);
         reviews.setVisibility(View.VISIBLE);
-        reviews_rv.setVisibility(View.VISIBLE);
+        if (reviewsAvailable) {
+            reviewsRV.setVisibility(View.VISIBLE);
+            noReviews_tv.setVisibility(View.GONE);
+        }else{
+            reviewsRV.setVisibility(View.GONE);
+            noReviews_tv.setVisibility(View.VISIBLE);
+        }
         runtime.setVisibility(View.VISIBLE);
     }
 

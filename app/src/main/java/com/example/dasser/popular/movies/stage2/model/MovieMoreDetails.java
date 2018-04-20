@@ -2,11 +2,13 @@ package com.example.dasser.popular.movies.stage2.model;
 
 import java.util.List;
 
-import static com.example.dasser.popular.movies.stage2.utils.Utils.ArrayStringMovieDataType.author;
-import static com.example.dasser.popular.movies.stage2.utils.Utils.ArrayStringMovieDataType.content;
-import static com.example.dasser.popular.movies.stage2.utils.Utils.ArrayStringMovieDataType.key;
-import static com.example.dasser.popular.movies.stage2.utils.Utils.ArrayStringMovieDataType.name;
-import static com.example.dasser.popular.movies.stage2.utils.Utils.ArrayStringMovieDataType.site;
+import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.name;
+import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.key;
+import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.content;
+import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.site;
+import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.author;
+import static com.example.dasser.popular.movies.stage2.Constants.STRING_SEPARATOR;
+
 
 public class MovieMoreDetails {
     private int runtime;
@@ -23,21 +25,13 @@ public class MovieMoreDetails {
     public class Video {
         private String key, name, site;
 
-        public String getKey() { return key; }
+        String getKey() { return key; }
         public String getName() { return name; }
-        public String getSite() { return site; }
+        String getSite() { return site; }
     }
 
     public int getRuntime() {
         return runtime;
-    }
-
-    public ResultModel<List<Review>> getReview() {
-        return reviews;
-    }
-
-    public ResultModel<List<Video>> getTrailer() {
-        return videos;
     }
 
     public String getAllVideosKeys() {
@@ -64,7 +58,7 @@ public class MovieMoreDetails {
         StringBuilder value = new StringBuilder();
         for(int i=0 ; i< ( (List) ((ResultModel)rList).getResults()).size() ; i++) {
             if (i > 0)
-                value.append("__,__");
+                value.append(STRING_SEPARATOR);
             switch (type){
                 case author:
                     value.append( ((List<Review>) ((ResultModel)rList).getResults()).get(i).getAuthor());

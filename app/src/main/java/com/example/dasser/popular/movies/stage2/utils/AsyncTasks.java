@@ -49,7 +49,7 @@ public class AsyncTasks {
 
                 MoviesAPI moviesAPI = Utils.setupRetrofitAndGetMoviesAPI();
 
-                final int sortingOption = Utils.getSortingPreference(context, false);
+                final int sortingOption = Utils.getSortingPreference(context);
                 List<Movie> movies = null;
                 Call<MoviesAPI.ArrayResultModel> connection = moviesAPI.getAllMovies(
                         getUrlSortingOptionUrlFormat(sortingOption, getContext(), false));
@@ -121,7 +121,7 @@ public class AsyncTasks {
                 Log.d(TAG, "In getGetAndSaveDetailsDataToDatabase.loadInBackground");
 
                 MoviesAPI moviesAPI = Utils.setupRetrofitAndGetMoviesAPI();
-                final int sortingOption = Utils.getSortingPreference(context, false);
+                final int sortingOption = Utils.getSortingPreference(context);
 
                 Call<MovieMoreDetails> connection = moviesAPI.getMovieMoreDetails(movie_id);
 
@@ -161,7 +161,8 @@ public class AsyncTasks {
                         .update(CONTENT_URI, moviesValues
                                 , Contract.MoviesEntry.COLUMN_MOVIE_ID + "=?"
                                 , new String[]{movie_id});
-                Log.d(TAG, "getGetAndSaveDetailsDataToDatabase.saveDataToDatabase - Task Complete " + update + "has been updated");
+                Log.d(TAG, "getGetAndSaveDetailsDataToDatabase.saveDataToDatabase - Task Completed "
+                        + update + "has been updated");
             }
 
         };
