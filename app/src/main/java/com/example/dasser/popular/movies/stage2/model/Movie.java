@@ -13,6 +13,7 @@ public class Movie {
     private final String overview;
     private final String release_date;
 
+    @SuppressWarnings("unused")
     public Movie(int id, float vote_average, String original_title, String poster_path, String overview, String release_date) {
         this.id = id;
         this.vote_average = vote_average;

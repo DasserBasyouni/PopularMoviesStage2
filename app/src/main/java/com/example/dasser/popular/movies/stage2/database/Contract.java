@@ -29,7 +29,6 @@ public class Contract {
     static final String CONTENT_AUTHORITY = "com.example.dasser.popular.movies.stage2";
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     static final String PATH_MOVIES = "movies";
-    static final String PATH_FAV = "favorite";
 
     public static final int COLUMN_MOVIE_POSTER = 0;
     public static final int COLUMN_MOVIE_ID = 1;

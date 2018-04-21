@@ -3,32 +3,25 @@
     <string name="sort_by">Sort By</string>
     <string name="most_popular">Most Popular</string>
     <string name="top_rated">Top Rated</string>
-    <string name="movie_poster">Movie Poster</string>
     <string name="favorite">Favorite</string>
-    <string name="trailer_with_space">Trailer </string>
-    <string name="content_authority">com.example.dasser.popular.movies.stage2</string>
-    <string name="sync_account_type">nano.pop.movies2</string>
     <string name="most_popular_url_name">popular</string>
     <string name="top_rated_url_name">top_rated</string>
-
-    <string name="pref_sorting_option">pref_sorting_option</string>
-    <string name="pref_popular_initialized">pref_popular_initialized</string>
-    <string name="pref_rated_initialized">pref_rated_initialized</string>
-    <string name="channel_name">Data Updates</string>
-    <string name="channel_description">This channel is about  movies updates that the app got form the internet.</string>
-    <string name="extra_movie_id">movie_id</string>
     <string name="trailers">Trailers:</string>
     <string name="reviews">Reviews:</string>
     <string name="poster_description">Movie Poster</string>
     <string name="loading_more_details">Loading More Details</string>
     <string name="video_thumbnail">Video Thumbnail</string>
+    <string name="no_reviews_available">No Reviews For This Movie</string>
+    <string name="average_rate">Average Rate</string>
+    <string name="runtime">Runtime</string>
+    <string name="released">Released</string>
+
+    <string name="pref_sorting_option">pref_sorting_option</string>
+    <string name="pref_popular_initialized">pref_popular_initialized</string>
+    <string name="pref_rated_initialized">pref_rated_initialized</string>
 
     <string name="runtime_format">%1$s minutes</string>
     <string name="youtube_thumbnail_format">https://img.youtube.com/vi/%1$s/mqdefault.jpg</string>
     <string name="youtube_video_url_format">https://www.youtube.com/watch?v=%1$s</string>
     <string name="author_format">~%1s</string>
-    <string name="no_reviews_available">No Reviews For This Movie</string>
-    <string name="average_rate">Average Rate</string>
-    <string name="runtime">Runtime</string>
-    <string name="released">Released</string>
 </resources>

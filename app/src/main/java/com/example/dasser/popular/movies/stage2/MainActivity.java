@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private final String TAG = MainActivity.class.getSimpleName();
     private LoaderManager.LoaderCallbacks loaderCallback;
-    private MenuItem favoritesMenuItem;
+    private MenuItem popularMenuItem;
 
-    public void restartLoader() {
+    private void restartLoader() {
         getSupportLoaderManager().restartLoader(MAIN_LOADER_ID, null, loaderCallback);
     }
 
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         ButterKnife.bind(this);
         loaderCallback = this;
 
-        Log.e("Z_url sort", "here is me002 " + getSortingPreference(this));
         getSupportLoaderManager().initLoader(MAIN_LOADER_ID, null, this);
     }
 
@@ -69,14 +68,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         switch (getSortingPreference(this)){
             case sortedByPopularity:
-                menu.findItem(R.id.action_popular).setChecked(true);
+                popularMenuItem = menu.findItem(R.id.action_popular).setChecked(true);
                 break;
             case sortedByRating:
                 menu.findItem(R.id.action_rated).setChecked(true);
                 break;
             case sortedByFavorites:
-                favoritesMenuItem = menu.findItem(R.id.action_favorite);
-                favoritesMenuItem.setChecked(true);
+                menu.findItem(R.id.action_favorite).setChecked(true);
                 break;
 
                 default:
@@ -186,19 +184,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Log.v(TAG, "In onLoadFinished");
 
         cursor.moveToFirst();
-        if (cursor.isNull(COLUMN_MOVIE_ID) && getSortingPreference(this) == sortedByFavorites) {
+        if (cursor.getCount()==0 && getSortingPreference(this) == sortedByFavorites) {
             saveSortPreference(this, sortedByPopularity);
-            favoritesMenuItem.setEnabled(true);
-            Toast.makeText(this, "You have No favorites now, welcome back to Popular Movies list", Toast.LENGTH_LONG).show();
-            restartLoader();
-
+            if (popularMenuItem != null) {
+                popularMenuItem.setChecked(true);
+                restartLoader();
+            }
+            Toast.makeText(this, "You have No favorites now, welcome back to Popular Movies list"
+                    , Toast.LENGTH_LONG).show();
         } else {
             List<IdAndPoster> postersAndIDs = new ArrayList<>();
-            do {
-                postersAndIDs.add(new IdAndPoster(cursor.getInt(COLUMN_MOVIE_ID),
-                        cursor.getString(Contract.COLUMN_MOVIE_POSTER)));
-            } while (cursor.moveToNext());
-
+            if(cursor.getCount() != 0) {
+                do {
+                    postersAndIDs.add(new IdAndPoster(cursor.getInt(COLUMN_MOVIE_ID),
+                            cursor.getString(Contract.COLUMN_MOVIE_POSTER)));
+                } while (cursor.moveToNext());
+            }
             gridView.setAdapter(new MoviesAdapter(MainActivity.this, postersAndIDs));
             spin_kit.setVisibility(View.GONE);
             gridView.setVisibility(View.VISIBLE);

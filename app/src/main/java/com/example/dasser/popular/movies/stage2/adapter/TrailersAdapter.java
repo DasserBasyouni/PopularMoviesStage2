@@ -28,8 +28,8 @@ import static com.example.dasser.popular.movies.stage2.Constants.VideosSiteType.
 public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.ViewHolder> {
 
     private final String TAG = TrailersAdapter.class.getSimpleName();
-    private List<String> keys, names, types;
-    private Context context;
+    private final List<String> keys, names, types;
+    private final Context context;
 
 
     public TrailersAdapter(Context context, String key, String name, String site) {
@@ -41,10 +41,10 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
-        TextView trailerName;
-        ImageView thumbnail;
-        SpinKitView spinKitView;
+        final CardView cardView;
+        final TextView trailerName;
+        final ImageView thumbnail;
+        final SpinKitView spinKitView;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -65,11 +65,9 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull final TrailersAdapter.ViewHolder holder, final int position) {
         holder.trailerName.setText(names.get(position));
-        Log.e("Z_", types.get(position));
 
         if (types.get(position).equals(youTube)) {
             final String key = keys.get(position);
-            Log.e("Z_url", context.getString(R.string.youtube_thumbnail_format, key));
 
             final String imageUrl = context.getString(R.string.youtube_thumbnail_format, key);
             Picasso.get().load(imageUrl)

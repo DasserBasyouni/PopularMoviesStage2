@@ -52,7 +52,7 @@ public class AsyncTasks {
                 final int sortingOption = Utils.getSortingPreference(context);
                 List<Movie> movies = null;
                 Call<MoviesAPI.ArrayResultModel> connection = moviesAPI.getAllMovies(
-                        getUrlSortingOptionUrlFormat(sortingOption, getContext(), false));
+                        getUrlSortingOptionUrlFormat(sortingOption, getContext()));
 
                 Log.d(TAG, "getGetAndSaveMainDataToDatabase - Connecting to URL: " + connection.request().url().toString());
                 try {

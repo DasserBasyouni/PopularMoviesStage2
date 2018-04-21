@@ -10,23 +10,24 @@ import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovi
 import static com.example.dasser.popular.movies.stage2.Constants.STRING_SEPARATOR;
 
 
+@SuppressWarnings("unused")
 public class MovieMoreDetails {
     private int runtime;
     private ResultModel<List<Review>> reviews;
     private ResultModel<List<Video>> videos;
 
-    public class Review {
+    class Review {
         private String author, content;
 
-        public String getAuthor() { return author; }
-        public String getContent() { return content; }
+        String getAuthor() { return author; }
+        String getContent() { return content; }
     }
 
-    public class Video {
+    class Video {
         private String key, name, site;
 
         String getKey() { return key; }
-        public String getName() { return name; }
+        String getName() { return name; }
         String getSite() { return site; }
     }
 
@@ -54,6 +55,7 @@ public class MovieMoreDetails {
         return convertArrayStringToString(reviews, content);
     }
 
+    @SuppressWarnings("unchecked")
     private String convertArrayStringToString(Object rList, int type) {
         StringBuilder value = new StringBuilder();
         for(int i=0 ; i< ( (List) ((ResultModel)rList).getResults()).size() ; i++) {

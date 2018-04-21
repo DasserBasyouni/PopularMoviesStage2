@@ -1,6 +1,7 @@
 package com.example.dasser.popular.movies.stage2.model;
 
-public class ResultModel<R> {
+class ResultModel<R> {
+    @SuppressWarnings("unused")
     private R results;
 
     public R getResults() {

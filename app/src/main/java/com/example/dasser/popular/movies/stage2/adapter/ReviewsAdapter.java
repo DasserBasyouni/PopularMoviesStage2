@@ -20,8 +20,9 @@ import static com.example.dasser.popular.movies.stage2.Constants.STRING_SEPARATO
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder>{
 
-    private List<String> authors, contents;
-    private Context context;
+    private List<String> authors;
+    private final List<String> contents;
+    private final Context context;
 
 
     public ReviewsAdapter(Context context, String author, String content) {
@@ -32,8 +33,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView author;
-        ExpandableTextView content;
+        final TextView author;
+        final ExpandableTextView content;
 
         ViewHolder(View itemView) {
             super(itemView);

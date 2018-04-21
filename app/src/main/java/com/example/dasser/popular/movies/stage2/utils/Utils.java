@@ -59,9 +59,8 @@ public final class Utils {
         });
     }
 
-    static String getUrlSortingOptionUrlFormat(int sortBy, Context context, boolean inverted) {
-        if (sortBy == sortedByPopularity && !inverted
-                || sortBy == sortedByRating && inverted )
+    static String getUrlSortingOptionUrlFormat(int sortBy, Context context) {
+        if (sortBy == sortedByPopularity || sortBy == sortedByRating )
             return context.getString(R.string.most_popular_url_name);
         else
             return context.getString(R.string.top_rated_url_name);
@@ -93,16 +92,18 @@ public final class Utils {
     }
 
     public static boolean isDataInitialized(Context context, int sortingOption) {
-        if (sortingOption == sortedByPopularity)
-            return getSharedPreferences(context).getBoolean(
-                context.getString(R.string.pref_popular_initialized), false);
-        else if (sortingOption == sortedByRating)
-            return getSharedPreferences(context).getBoolean(
-                context.getString(R.string.pref_rated_initialized), false);
-        else
-            return getSharedPreferences(context).getBoolean(context.getString(R.string.pref_popular_initialized)
-                    , false) || getSharedPreferences(context)
-                    .getBoolean(context.getString(R.string.pref_rated_initialized), false);
+        switch (sortingOption) {
+            case sortedByPopularity:
+                return getSharedPreferences(context).getBoolean(
+                        context.getString(R.string.pref_popular_initialized), false);
+            case sortedByRating:
+                return getSharedPreferences(context).getBoolean(
+                        context.getString(R.string.pref_rated_initialized), false);
+            default:
+                return getSharedPreferences(context).getBoolean(context.getString(R.string.pref_popular_initialized)
+                        , false) || getSharedPreferences(context)
+                        .getBoolean(context.getString(R.string.pref_rated_initialized), false);
+        }
     }
 
     public static void saveInitializationState(Context context, int sortingOption) {

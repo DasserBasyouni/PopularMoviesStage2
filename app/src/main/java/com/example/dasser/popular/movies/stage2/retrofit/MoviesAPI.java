@@ -17,7 +17,7 @@ public interface MoviesAPI {
     String api_key_attribute = "?api_key=";
 
     // TODO please add you API key here to get the app working, have a good day ^_^
-    String apiKey_value = "64bed607af1f9b1c73ec98c70004f5e2";
+    String apiKey_value = "";
 
     String appendToResponse = "&append_to_response=reviews,videos";
     String lang = "&language=en-US";
@@ -31,6 +31,7 @@ public interface MoviesAPI {
     Call<MovieMoreDetails> getMovieMoreDetails(@Path("moveId") String moveId);
 
 
+    @SuppressWarnings("unused")
     class ArrayResultModel {
         private List<Movie> results;
 

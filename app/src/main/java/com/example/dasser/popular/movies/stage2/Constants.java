@@ -5,18 +5,16 @@ import android.support.annotation.StringDef;
 
 import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.author;
 import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.content;
-import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.name;
 import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.key;
+import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.name;
 import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.site;
 import static com.example.dasser.popular.movies.stage2.Constants.DataLoadedMode.sortedByFavorites;
 import static com.example.dasser.popular.movies.stage2.Constants.DataLoadedMode.sortedByPopularity;
 import static com.example.dasser.popular.movies.stage2.Constants.DataLoadedMode.sortedByRating;
 import static com.example.dasser.popular.movies.stage2.Constants.VideosSiteType.youTube;
-import static com.example.dasser.popular.movies.stage2.Constants.favoriteOrNot.favorite;
-import static com.example.dasser.popular.movies.stage2.Constants.favoriteOrNot.notFavorite;
 
 public class Constants {
-    public static String STRING_SEPARATOR = "__,__";
+    public static final String STRING_SEPARATOR = "__,__";
 
     public static final String EXTRA_MOVIE_ID = "movie_id";
 
@@ -44,12 +42,6 @@ public class Constants {
     @StringDef({youTube})
     public @interface VideosSiteType {
         String youTube = "0";
-    }
-
-    @IntDef({notFavorite, favorite})
-    public @interface favoriteOrNot {
-        int notFavorite = 0;
-        int favorite = 2;
     }
 }
 

@@ -31,8 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.example.dasser.popular.movies.stage2.Constants.DETAILS_MAIN_DATA_LOADER_ID;
-import static com.example.dasser.popular.movies.stage2.Constants.favoriteOrNot.favorite;
-import static com.example.dasser.popular.movies.stage2.Constants.favoriteOrNot.notFavorite;
+import static com.example.dasser.popular.movies.stage2.Constants.DataLoadedMode.sortedByFavorites;
 import static com.example.dasser.popular.movies.stage2.database.Contract.Main_Movies_COLUMNS;
 import static com.example.dasser.popular.movies.stage2.database.Contract.MoviesEntry.CONTENT_URI;
 import static com.example.dasser.popular.movies.stage2.utils.Utils.getRunTimeFormat;
@@ -50,6 +49,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
     @BindView(R.id.poster) ImageView poster;
     @BindView(R.id.favorite_fab) FloatingActionButton favoriteFab;
 
+    @BindView(R.id.runtime_label) TextView runtimeLabel;
     @BindView(R.id.runtime) TextView runtime;
     @BindView(R.id.loading_more_data_tv) TextView loadingMoreData_tv;
     @BindView(R.id.frameLayout1) FrameLayout firstFrameLayout;
@@ -86,10 +86,12 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                 ContentValues favoriteValue = new ContentValues();
                 if (favoriteMovie){
                     favoriteFab.setImageResource(R.drawable.ic_favorite_border_red_a700_24dp);
-                    favoriteValue.put(Contract.MoviesEntry.COLUMN_MOVIE_FAV, notFavorite);
+                    favoriteValue.putNull(Contract.MoviesEntry.COLUMN_MOVIE_FAV);
+                    favoriteMovie = false;
                 }else {
                     favoriteFab.setImageResource(R.drawable.ic_favorite_red_a700_24dp);
-                    favoriteValue.put(Contract.MoviesEntry.COLUMN_MOVIE_FAV, favorite);
+                    favoriteValue.put(Contract.MoviesEntry.COLUMN_MOVIE_FAV, sortedByFavorites);
+                    favoriteMovie = true;
                 }
                 int update = getContentResolver()
                         .update(CONTENT_URI, favoriteValue
@@ -111,7 +113,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         return super.onOptionsItemSelected(item);
     }
 
-    public void restartLoader() {
+    private void restartLoader() {
         Bundle bundle = new Bundle();
         bundle.putInt(Constants.EXTRA_MOVIE_ID, Integer.parseInt(movie_id));
         getSupportLoaderManager().restartLoader(DETAILS_MAIN_DATA_LOADER_ID, bundle, this);
@@ -142,7 +144,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         ratingAverage.setText(Utils.getRateFormat(data.getFloat(Contract.COLUMN_MOVIE_RATE)));
         loadPosterImage(TAG, "https://image.tmdb.org/t/p/w185" + data.getString(Contract.COLUMN_MOVIE_POSTER), poster);
 
-        if(data.getInt(Contract.COLUMN_MOVIE_FAV) == favorite){
+        if(data.getInt(Contract.COLUMN_MOVIE_FAV) == sortedByFavorites){
             favoriteFab.setImageResource(R.drawable.ic_favorite_red_a700_24dp);
             favoriteMovie = true;
         }
@@ -162,10 +164,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         runtime.setText(getRunTimeFormat(getBaseContext(), data.getString(Contract.COLUMN_MOVIE_RUNTIME)));
 
         String author = data.getString(Contract.COLUMN_MOVIE_REVIEWS_A).trim();
-        Log.e("Z_1", author);
         boolean areReviewsAvailable = !author.isEmpty();
-        Log.e("Z_2", "" + areReviewsAvailable);
-
         if (areReviewsAvailable){
             ReviewsAdapter reviewsCardAdapter = new ReviewsAdapter(this,
                     data.getString(Contract.COLUMN_MOVIE_REVIEWS_A)
@@ -236,6 +235,8 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         trailers.setVisibility(View.VISIBLE);
         trailersRV.setVisibility(View.VISIBLE);
         reviews.setVisibility(View.VISIBLE);
+        runtime.setVisibility(View.VISIBLE);
+        runtimeLabel.setVisibility(View.VISIBLE);
         if (reviewsAvailable) {
             reviewsRV.setVisibility(View.VISIBLE);
             noReviews_tv.setVisibility(View.GONE);
@@ -243,7 +244,6 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             reviewsRV.setVisibility(View.GONE);
             noReviews_tv.setVisibility(View.VISIBLE);
         }
-        runtime.setVisibility(View.VISIBLE);
     }
 
 }
