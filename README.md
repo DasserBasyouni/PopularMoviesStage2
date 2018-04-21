@@ -1,6 +1,7 @@
 # Popular Movies Stage 2
 
 Please get your API key form [this link](https://www.themoviedb.org/settings/api) or create yours if you don't have an account sign up from [this link](https://www.themoviedb.org/account/signup).
+- Add API key to retrofit > MoviesAPI > apiKey_value  (there is a TODO there) 
 
 #### Improves to be a better project:
 1. Handling user fast clicking on the sorting options
