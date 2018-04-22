@@ -1,5 +1,6 @@
 package com.example.dasser.popular.movies.stage2.retrofit;
 
+import com.example.dasser.popular.movies.stage2.BuildConfig;
 import com.example.dasser.popular.movies.stage2.model.Movie;
 import com.example.dasser.popular.movies.stage2.model.MovieMoreDetails;
 
@@ -17,7 +18,7 @@ public interface MoviesAPI {
     String api_key_attribute = "?api_key=";
 
     // TODO please add you API key here to get the app working, have a good day ^_^
-    String apiKey_value = "";
+    String apiKey_value = BuildConfig.THE_MOVIE_DB_API_TOKEN;
 
     String appendToResponse = "&append_to_response=reviews,videos";
     String lang = "&language=en-US";

@@ -60,7 +60,7 @@ public final class Utils {
     }
 
     static String getUrlSortingOptionUrlFormat(int sortBy, Context context) {
-        if (sortBy == sortedByPopularity || sortBy == sortedByRating )
+        if (sortBy == sortedByPopularity)
             return context.getString(R.string.most_popular_url_name);
         else
             return context.getString(R.string.top_rated_url_name);

@@ -15,6 +15,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        buildTypes.each {
+            // TODO or here, have a good day ;)
+            it.buildConfigField "String", "THE_MOVIE_DB_API_TOKEN", "\"$System.env.THE_MOVIE_DB_API_TOKEN\""
+        }
     }
 }
 

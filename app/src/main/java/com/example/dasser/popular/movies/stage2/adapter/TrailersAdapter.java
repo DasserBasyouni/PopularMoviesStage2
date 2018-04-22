@@ -87,8 +87,13 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.ViewHo
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(Intent.ACTION_VIEW
-                            , Uri.parse(context.getString(R.string.youtube_video_url_format, key))));
+                    Intent intent = new Intent(Intent.ACTION_VIEW
+                            , Uri.parse(context.getString(R.string.youtube_video_url_format, key)));
+
+                    if (intent.resolveActivity(context.getPackageManager()) != null) {
+                        context.startActivity(intent);
+                    } else
+                        Log.e(TAG, "There is no app installed could take you there");
                 }
             });
         }

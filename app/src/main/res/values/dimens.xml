@@ -17,4 +17,5 @@
     <dimen name="dp300">300dp</dimen>
     <dimen name="dp200">200dp</dimen>
     <dimen name="dp6">6dp</dimen>
+    <dimen name="dp277">277dp</dimen>
 </resources>
