@@ -2,9 +2,9 @@
 
 Most of us can relate to kicking back on the couch and enjoying a movie with friends and family. In this project, this app is built to allow users to discover the most popular movies playing.
 
--  [x]  Passed thought [Udacity's PROJECT SPECIFICATION: Popular Movies, Stage 2 rubric](https://review.udacity.com/#!/rubrics/67/view)
--  [x]  Build according to [Udacity's Popular Movies App Implementation Guide](https://docs.google.com/document/d/1ZlN1fUsCSKuInLECcJkslIqvpKlP7jWL2TP9m6UiA6I/pub?embedded=true#h.7sxo8jefdfll)
--  [x]  Passed thought [Udacity Android Developer Nanodegree - Core App Quality Guidelines](http://udacity.github.io/android-nanodegree-guidelines/core.html)
+- [x]   Passed thought [Udacity's PROJECT SPECIFICATION: Popular Movies, Stage 2 rubric](https://review.udacity.com/#!/rubrics/67/view)
+- [x]   Build according to [Udacity's Popular Movies App Implementation Guide](https://docs.google.com/document/d/1ZlN1fUsCSKuInLECcJkslIqvpKlP7jWL2TP9m6UiA6I/pub?embedded=true#h.7sxo8jefdfll)
+- [x]   Passed thought [Udacity Android Developer Nanodegree - Core App Quality Guidelines](http://udacity.github.io/android-nanodegree-guidelines/core.html)
 
 ## Screenshots
 <p align="center"> <img src="/pictures/screenshot1.png" width="250"> <img src="/pictures/screenshot2.png" width="250"> <img src="/pictures/screenshot3.png" width="250"> </p>
