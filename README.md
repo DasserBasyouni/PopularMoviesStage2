@@ -1,5 +1,7 @@
 # Popular Movies: Stage 2
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c3015debedfd4b3dbd257f95b5bc7031)](https://app.codacy.com/app/DasserBasyouni/PopularMoviesStage2?utm_source=github.com&utm_medium=referral&utm_content=DasserBasyouni/PopularMoviesStage2&utm_campaign=Badge_Grade_Dashboard)
+
 Most of us can relate to kicking back on the couch and enjoying a movie with friends and family. In this project, this app is built to allow users to discover the most popular movies playing.
 
 -  [x]  Passed thought [Udacity's PROJECT SPECIFICATION: Popular Movies, Stage 2 rubric](https://review.udacity.com/#!/rubrics/67/view)
