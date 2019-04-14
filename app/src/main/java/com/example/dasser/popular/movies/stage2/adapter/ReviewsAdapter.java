@@ -33,8 +33,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView author;
-        final ExpandableTextView content;
+        private final TextView author;
+        private final ExpandableTextView content;
 
         ViewHolder(View itemView) {
             super(itemView);

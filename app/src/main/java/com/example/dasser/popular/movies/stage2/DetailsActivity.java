@@ -205,9 +205,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             }
 
             @Override
-            public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-
-            }
+            public void onLoaderReset(@NonNull Loader<Cursor> loader) { /* do nothing */ }
         };
         getSupportLoaderManager().initLoader(Constants.DETAILS_MORE_DATA_LOADER_ID, null
                 , moreDataLoaderListener);

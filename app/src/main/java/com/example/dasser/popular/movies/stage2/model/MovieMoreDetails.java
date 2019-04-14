@@ -75,8 +75,11 @@ public class MovieMoreDetails {
                     value.append( ((List<Video>) ((ResultModel)rList).getResults()).get(i).getName());
                     break;
                 case site:
-                    value.append( ((List<Video>) ((ResultModel)rList).getResults()).get(i).getSite());
+                    value.append(((List<Video>) ((ResultModel) rList).getResults()).get(i).getSite());
                     break;
+
+                default:
+                    throw new IllegalArgumentException("Check MovieMoreDetails > convertArrayStringToString() > switch()");
             }
         }
         return value.toString();

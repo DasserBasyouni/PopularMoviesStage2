@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 menu.findItem(R.id.action_favorite).setChecked(true);
                 break;
 
-                default:
-                    menu.findItem(R.id.action_popular).setChecked(true);
-                    break;
+            default:
+                menu.findItem(R.id.action_popular).setChecked(true);
+                break;
         }
         return true;
     }
@@ -159,6 +159,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 cSelection = Contract.MoviesEntry.COLUMN_MOVIE_FAV + "=?";
                 cSelectionArg = new String[]{String.valueOf(dataOnFavoriteMode)};
                 break;
+
+            default:
+                throw new IllegalArgumentException("Check MainActivity > onCreateLoader() > switch()");
         }
 
         CursorLoader cursorLoader = new CursorLoader(

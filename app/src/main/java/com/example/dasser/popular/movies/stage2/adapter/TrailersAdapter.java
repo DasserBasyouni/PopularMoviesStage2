@@ -41,10 +41,10 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        final CardView cardView;
-        final TextView trailerName;
-        final ImageView thumbnail;
-        final SpinKitView spinKitView;
+        private final CardView cardView;
+        private final TextView trailerName;
+        private final ImageView thumbnail;
+        private final SpinKitView spinKitView;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -84,17 +84,14 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.ViewHo
                         }
                     });
 
-            holder.cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW
-                            , Uri.parse(context.getString(R.string.youtube_video_url_format, key)));
+            holder.cardView.setOnClickListener(v -> {
+                Intent intent = new Intent(Intent.ACTION_VIEW
+                        , Uri.parse(context.getString(R.string.youtube_video_url_format, key)));
 
-                    if (intent.resolveActivity(context.getPackageManager()) != null) {
-                        context.startActivity(intent);
-                    } else
-                        Log.e(TAG, "There is no app installed could take you there");
-                }
+                if (intent.resolveActivity(context.getPackageManager()) != null) {
+                    context.startActivity(intent);
+                } else
+                    Log.e(TAG, "There is no app installed could take you there");
             });
         }
     }
