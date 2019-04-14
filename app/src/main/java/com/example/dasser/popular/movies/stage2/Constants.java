@@ -1,7 +1,7 @@
 package com.example.dasser.popular.movies.stage2;
 
-import android.support.annotation.IntDef;
-import android.support.annotation.StringDef;
+import androidx.annotation.IntDef;
+import androidx.annotation.StringDef;
 
 import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.author;
 import static com.example.dasser.popular.movies.stage2.Constants.ArrayStringMovieDataType.content;

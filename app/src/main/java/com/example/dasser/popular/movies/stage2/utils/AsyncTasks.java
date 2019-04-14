@@ -4,10 +4,10 @@ package com.example.dasser.popular.movies.stage2.utils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.support.annotation.Nullable;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import androidx.annotation.Nullable;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 import android.util.Log;
 
 import com.example.dasser.popular.movies.stage2.database.Contract;
